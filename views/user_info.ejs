@@ -3,67 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información de Usuario</title>
+    <title>Panel de Administrador - Generar QR</title>
     <style>
+        :root {
+            --primary-bg: #0f1123;
+            --secondary-bg: #1b1f38;
+            --accent-color: #fbbc04;
+            --text-color: #f0f4f8;
+            --text-color-light: #cfd8e3;
+            --border-color: #232a4d;
+            --input-bg: #232a4d;
+            --error-color: #EF5350;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #0f1123;
-            color: #f0f4f8;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
             line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
         }
 
         .container {
-            background-color: #1b1f38;
+            background-color: var(--secondary-bg);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             max-width: 700px;
-            margin: 40px auto;
-            border-top: 5px solid #fbbc04;
+            width: 100%;
+            margin: 40px 0;
+            border-top: 5px solid var(--accent-color);
         }
 
         h1, h2 {
-            color: #fbbc04;
+            color: var(--accent-color);
             margin-bottom: 20px;
             font-weight: 600;
             text-align: center;
         }
 
         h2 {
-            border-bottom: 1px solid #232a4d;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
             margin-top: 30px;
             text-align: left;
+            font-size: 1.5em;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #cfd8e3;
+            color: var(--text-color-light);
         }
 
         input[type="text"],
         input[type="email"],
+        input[type="date"],
         textarea {
             width: calc(100% - 24px);
             padding: 12px;
             margin-bottom: 20px;
-            border: 1px solid #232a4d;
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             box-sizing: border-box;
-            background-color: #232a4d;
-            color: #f0f4f8;
+            background-color: var(--input-bg);
+            color: var(--text-color);
             font-size: 1em;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
+        input:focus,
         textarea:focus {
-            border-color: #fbbc04;
+            border-color: var(--accent-color);
             box-shadow: 0 0 0 0.2rem rgba(251, 188, 4, 0.25);
             outline: none;
         }
@@ -74,150 +91,145 @@
         }
 
         button {
-            background-color: #fbbc04;
-            color: #1b1f38;
+            background-color: var(--accent-color);
+            color: var(--secondary-bg);
             padding: 12px 25px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 17px;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: block;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(251, 188, 4, 0.2);
         }
 
         button:hover {
-            background-color: #e0ac00;
+            background-color: #e6a900;
             transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(251, 188, 4, 0.3);
         }
 
         .result {
             margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #4d4d23;
-            border-radius: 8px;
-            background-color: #1b1f38;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: var(--secondary-bg);
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .result h2 {
             margin-top: 0;
-            color: #fbbc04;
+            color: var(--accent-color);
             text-align: center;
             border-bottom: none;
+            font-size: 1.6em;
         }
 
         .result p {
-            word-break: break-all;
-            color: #f0f4f8;
+            word-break: break-word;
+            color: var(--text-color);
             margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .result strong {
+            color: var(--text-color);
         }
 
         .result img {
-            max-width: 180px;
+            max-width: 200px;
             height: auto;
-            margin-top: 15px;
-            border: 5px solid #232a4d;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            border: 6px solid var(--input-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .result img:hover {
+            transform: scale(1.02);
         }
 
         .error {
-            color: #ffb3b3;
-            background-color: #4a1a1a;
-            border: 1px solid #a94442;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            color: var(--error-color);
+            background-color: #3a1f1f;
+            border: 1px solid var(--error-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
             text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(239, 83, 80, 0.2);
         }
 
         a {
-            color: #fbbc04;
+            color: var(--accent-color);
             text-decoration: none;
             font-weight: 600;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         a:hover {
             text-decoration: underline;
-        }
-
-        .info-section {
-            background-color: #232a4d;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-section h2 {
-            color: #fbbc04;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #363d60;
-            padding-bottom: 8px;
-        }
-
-        .info-item {
-            margin-bottom: 10px;
-        }
-
-        .info-item strong {
-            color: #f0f4f8;
-            display: inline-block;
-            min-width: 140px;
-        }
-
-        .info-item span {
-            color: #cfd8e3;
+            color: #e6a900;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Información Detallada del Usuario</h1>
-
-        <div class="info-section">
+        <h1>Generar QR de Usuario</h1>
+        <% if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+        <form action="/admin/generate" method="POST">
             <h2>Información Básica</h2>
-            <div class="info-item">
-                <strong>Nombre Completo:</strong> <span><%= user.nombre || 'N/A' %></span>
-            </div>
-            <div class="info-item">
-                <strong>Email:</strong> <span><%= user.email || 'N/A' %></span>
-            </div>
-        </div>
+            <label for="name">Nombre Completo:</label>
+            <input type="text" id="name" name="name" required>
 
-        <div class="info-section">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
             <h2>Información Personal</h2>
-            <div class="info-item">
-                <strong>Fecha de Nacimiento:</strong> <span><%= user.fecha_nacimiento || 'N/A' %></span>
-            </div>
-            <div class="info-item">
-                <strong>Dirección:</strong> <span><%= user.direccion || 'N/A' %></span>
-            </div>
-        </div>
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="DD/MM/AAAA">
 
-        <div class="info-section">
+            <label for="direccion">Dirección:</label>
+            <textarea id="direccion" name="direccion" rows="2"></textarea>
+
             <h2>Salud</h2>
-            <div class="info-item">
-                <strong>Alergias:</strong> <span><%= user.alergias || 'N/A' %></span>
-            </div>
-            <div class="info-item">
-                <strong>Grupo Sanguíneo:</strong> <span><%= user.grupo_sanguineo || 'N/A' %></span>
-            </div>
-        </div>
+            <label for="alergias">Alergias:</label>
+            <textarea id="alergias" name="alergias" rows="2" placeholder="Ej: Polen, Penicilina"></textarea>
 
-        <div class="info-section">
+            <label for="grupo_sanguineo">Grupo Sanguíneo:</label>
+            <input type="text" id="grupo_sanguineo" name="grupo_sanguineo" placeholder="Ej: A+, O-">
+
             <h2>Contacto</h2>
-            <div class="info-item">
-                <strong>Teléfono:</strong> <span><%= user.telefono || 'N/A' %></span>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" placeholder="Ej: +51 987654321">
+
+            <label for="emergencia_contacto">Contacto de Emergencia:</label>
+            <input type="text" id="emergencia_contacto" name="emergencia_contacto" placeholder="Nombre y Teléfono">
+
+            <button type="submit">Generar URL y QR</button>
+        </form>
+
+        <% if (generatedUrl) { %>
+            <div class="result">
+                <h2>¡URL y QR Generados!</h2>
+                <p><strong>URL de Acceso:</strong> <a href="<%= generatedUrl %>" target="_blank"><%= generatedUrl %></a></p>
+                <% if (qrCodeUrl) { %>
+                    <p><strong>Código QR para escanear:</strong></p>
+                    <img src="<%= qrCodeUrl %>" alt="Código QR">
+                    <p style="font-size: 0.9em; color: var(--text-color-light); margin-top: 10px;">Guarda este QR y la URL de acceso de forma segura.</p>
+                <% } else { %>
+                    <p style="color: var(--accent-color);">No se pudo generar el código QR.</p>
+                <% } %>
             </div>
-            <div class="info-item">
-                <strong>Contacto de Emergencia:</strong> <span><%= user.emergencia_contacto || 'N/A' %></span>
-            </div>
-        </div>
+        <% } %>
     </div>
 </body>
 </html>
